@@ -1,0 +1,153 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
+struct WANJIA/*定义结构体*/
+{
+	char name[100];
+	int sum;
+};
+void main()/*主函数*/
+{
+  printf("|-------------------------------------------|\n");
+  printf("|               石头剪刀布                  |\n");
+  printf("| 游戏介绍:                                 |\n");
+  printf("|                                           |\n");
+  printf("|       1-石头  2-剪刀  3-布                |\n");
+  printf("|       4-练习模式    5-实战模式            |\n");
+  printf("|    实战模式游戏结束后结果会在排行榜显示   |\n");
+  printf("|-------------------------------------------|\n");
+int j,n,mxz,win=0,lose=0,ping=0,sum=0;
+struct WANJIA wj[100];
+int pratise();              /*练习模式函数声明*/
+void shizhan();             /*实战模式函数声明*/
+int xz();          /*选择函数声明*/
+void input_player(struct WANJIA *wj,int j);     /*输入函数声明*/
+void sort_player(struct WANJIA wj[],int n);/*排序函数声明*/
+void output_player(struct WANJIA wj[],int n);/*排行榜函数声明*/
+srand(time(NULL));
+do{
+	mxz=xz();
+	if(mxz=='4')pratise();
+	else if(mxz=='5'){
+printf(" ------------------ \n");
+printf(" |欢迎来到实战模式|\n");
+printf(" ------------------ \n");
+printf("请输入玩家的人数(输入后按enter键进入游戏):\n");scanf("%d",&n);
+	for(j=0;j<n;j++){
+		shizhan(); input_player(wj,j);
+	}
+sort_player(wj,n);
+printf(" -------------\n");
+printf("|   排行榜    |\n");
+	output_player(wj,n);
+		  }
+	  }while(mxz=='4'||mxz=='5');	  
+}
+int pratise()/*练习模式的子函数*/
+{
+	int i,people,Computer,win=0,lose=0,ping=0;
+printf(" ------------------ \n");
+printf(" |欢迎来到练习模式|\n");
+printf(" ------------------ \n");
+	 for(i=0;i<7;i++){
+          people=getch();         
+        if(people=='1')printf("石头 VS ");
+        else if(people=='2')printf("剪刀 VS ");
+        else if(people=='3')printf("布 VS ");
+      Computer = rand()%3+1+48;
+      if(Computer=='1')printf("石头\n");
+	  else if(Computer=='2')printf("剪刀\n");
+      else if(Computer=='3')printf("布\n"); 
+	  switch(people-Computer)
+	  {
+      case 0:ping++; break;
+      case -1: case 2:win++;break;
+      case 1: case -2:;lose++;break;
+	  }
+	 }
+  printf("\n");
+  printf(" ------------------------------------------\n");
+  printf("|                 你一共玩了%d盘            |\n",win+lose+ping);
+  printf(" ---------------------|-------------------- \n");
+  printf("|        胜利         |         %d 盘       |\n",win);
+  printf(" ---------------------|-------------------- \n");
+  printf("|        失败         |         %d 盘       |\n",lose);
+  printf(" ---------------------|-------------------- \n");
+  printf("|        平手         |         %d 盘       |\n",ping); 
+  printf(" ---------------------|-------------------- \n");
+  if(win>lose)
+  printf("|        最后结果是:你赢了！               |\n");
+  else if(win<lose)
+  printf("|        最后结果是:你输了！               |\n"); 
+  else if(win=lose)
+  printf("|        最后结果是:平手！                 |\n"); 
+  printf(" ---------------------|---------------------\n");
+  return 0;
+}
+void shizhan()/*实战模式的子函数*/
+{
+	int i,people,Computer,sum=0,win,lose,ping;
+for(i=0;i<7;i++)
+{
+          people=getch();         
+        if(people=='1')printf("石头 VS ");
+        else if(people=='2')printf("剪刀 VS ");
+        else if(people=='3')printf("布 VS ");
+      Computer = rand()%3+1+48;
+      if(Computer=='1')printf("石头\n");
+	  else if(Computer=='2')printf("剪刀\n");
+      else if(Computer=='3')printf("布\n"); 
+	  switch(people-Computer){
+      case 0:ping++; break;
+      case -1: case 2:win++;break;
+      case 1: case -2:;lose++;break;}
+}
+sum=win-lose;/*排行榜由sum来进行排序，sum为输赢差*/
+printf("得分为%d\n",sum);
+		  return;
+}
+int xz()/*选择的子函数*/
+{
+	char xz;
+	printf("\n请选择游戏模式: \n");
+	xz=getch();
+	return xz;
+}
+void input_player(struct WANJIA *wj,int j)/*输入玩家信息*/
+{
+	printf("请输入玩家信息: 姓名(请输入两个字的名字) 和 得分\n");
+	scanf("%s%d",&wj[j].name,&wj[j].sum);	
+}
+
+
+void sort_player(struct WANJIA wj[],int n)/*排序*/
+{
+int i,j,k,index;
+struct WANJIA temp;
+for(j=0;j<n-1;j++)
+{
+index=j;
+for(k=j;k<n;k++)
+{
+if(wj[k].sum>wj[index].sum) index=k;
+temp=wj[j];wj[j]=wj[index];wj[index]=temp;
+}
+}
+for(i=0;i<n;i++)
+{
+	printf("%d\n",wj[j].sum);
+}
+}
+void output_player(struct WANJIA wj[],int n)/*输出排行榜*/
+{
+int j;
+printf(" -------------\n");
+printf("|姓名 |  得分 |\n");
+printf(" -----|-------\n");
+for(j=0;j<n;j++)
+{
+printf("|%s |  %d    |\n",wj[j].name,wj[j].sum);
+printf(" -------------\n");
+}
+}
